@@ -1,0 +1,17 @@
+#filterBarId button,#filterBarId select{
+    margin: 10px;
+}
+
+
+.nameinput:hover{
+    background-color: #fff !important;
+}
+
+.nameinput{
+    color:#000 !important;
+    text-align: left !important;
+}
+
+.navBgColor{
+    background-color: #43b1f1 !important;
+}
