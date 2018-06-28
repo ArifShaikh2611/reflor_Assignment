@@ -15,4 +15,15 @@
 .navBgColor{
     background-color: #43b1f1 !important;
     padding: 1.5rem 1rem !important;
+    height: 70px;
+}
+
+#nav-menu-container{
+    float: right;
+    display: block;
+    padding: 0;
+}
+
+#nav-menu-container li{
+    display: inline-block;
 }
