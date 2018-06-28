@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 
 class AddProduct extends Component{
@@ -8,7 +9,8 @@ class AddProduct extends Component{
         this.state={
             name:"",
             price:"",
-            rating:""
+            rating:"1",
+            invalidPrice : false
         }
     }
 
@@ -17,6 +19,13 @@ class AddProduct extends Component{
     }
 
     setPrice = (event) =>{
+        var price = event.target.value;
+        var digmatch=  /^\d+$/.test(price);
+        if(digmatch || event.target.value == ""){
+            this.setState({invalidPrice:false});    
+        }else{
+            this.setState({invalidPrice:true})
+        }
         this.setState({price:event.target.value});
     }
 
@@ -25,20 +34,63 @@ class AddProduct extends Component{
     }
 
     saveProduct = () => {
-        console.log(this.state);
-        this.setState({name:"",price:"",rating:""})
+        if(this.state.invalidPrice){
+            return false;
+        }
+        this.state.rating=parseInt(this.state.rating);
+        this.props.onAddProduct(this.state);
+        this.setState({name:"",price:"",rating:"1"})
+    }
+
+    deleteProduct = (event) =>{
+        console.log(event.target.value);
+        var removeId = parseInt(event.target.value);
+        this.props.onDeleteProduct(removeId);
     }
 
     render(){
         return(
-           <div>
+           <div style={{padding:'0px 30px'}}>
                <h3 className="text-center mt-4">Please enter product details</h3>
-               <div className="border col-lg-6 m-3">
+               <div className="row mt-4">
+               <div className="col-lg-6 col-md-12 col-sm-12 pl-5">
+               
+                   <h5>Product List</h5>
+                   { 
+                        this.props.products.length == 0 ? 
+                        <p>No products Added</p> : 
+                        <table border="1" cellPadding="10">
+                        <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Ratings</th>
+                            <th>Action</th>
+                            </tr>
+                            {
+                                this.props.products.map((obj,index) => (
+                                    <tr key={index}>
+                                    <td>{obj.productId}</td>
+                                    <td>{obj.name}</td>
+                                    <td>{obj.price}</td>
+                                    <td>{obj.rating}</td>
+                                    <td><button value={obj.productId} onClick={this.deleteProduct}>Delete</button></td>
+                                        </tr>
+                                ))
+                            }
+                            </tbody>
+                            
+                        </table>
+                    }
+               
+                       </div>
+               <div className="border col-lg-6 col-md-12 col-sm-12">
                <div className="row mt-4">
                 <div className="col-lg-2">
                     <label>Name</label>
                 </div>
-                <div className="col-lg-2">
+                <div className="col-lg-8">
                     <input type="text" className="btn btn-outline-secondary btn-lg nameinput" onChange={this.setName} value={this.state.name}/>
                 </div>
                </div>
@@ -46,15 +98,16 @@ class AddProduct extends Component{
                 <div className="col-lg-2">
                     <label>Price</label>
                 </div>
-                <div className="col-lg-2">
-                    <input type="text" className="btn btn-outline-secondary btn-lg nameinput" onChange={this.setPrice} value={this.state.price}/>
+                <div className="col-lg-8">
+                    <input type="text" className={`btn btn-outline-secondary btn-lg nameinput`} onChange={this.setPrice} value={this.state.price}/>
+                   { this.state.invalidPrice  ?  <span style={{color:'red'}}><br/>Please enter valid price.</span> : null }
                 </div>
                </div>
                <div className="row mt-4">
                 <div className="col-lg-2">
                     <label>Ratings</label>
                </div>
-                <div className="col-lg-2">
+                <div className="col-lg-8">
                     <select className="btn btn-outline-secondary btn-lg nameinput" onChange={this.setRating} value={this.state.rating}>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -65,11 +118,17 @@ class AddProduct extends Component{
                 </div>
                </div>
                <div className="row m-4">
-                <div className="col-lg-4 text-center">
+                <div className="col-lg-7 text-center">
                    <button className="btn btn-success btn-lg" onClick={this.saveProduct}>Add</button>
+                    { 
+                        this.props.products.length != 0 ? <span className="ml-3"><Link to="/view">Click here to View Products</Link></span> : null
+                    }
+                    
                    </div>
                    </div>
                    </div>
+                   
+                       </div>
             </div>
         )
         
@@ -77,4 +136,14 @@ class AddProduct extends Component{
 }
 
 
-export default AddProduct;
+const mapStateToProps = state => ({
+    products : state.products
+});
+
+
+const mapDispatchToprops =  {
+    onAddProduct : (productData) => ({type:'ADDPRODUCT',payload:productData}),
+    onDeleteProduct : (productId) => ({type:'DELETEPRODUCT',payload:productId})
+}
+
+export default connect(mapStateToProps,mapDispatchToprops)(AddProduct);

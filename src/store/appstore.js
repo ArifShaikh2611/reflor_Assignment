@@ -2,21 +2,9 @@ import { createStore } from 'redux';
 import  productReducer from '../reducers/productreducers';
 
 const initialState ={
-    filter : "",
-    products : [10,20]
+    filter : {},
+    products : []
 }
-
-
-const action ={
-    type: 'changeState',
-    payload : {
-        filter : 'New State'
-    }
-}
-
-
-
-
 
 
 const Appstore = createStore(
@@ -30,9 +18,5 @@ const Appstore = createStore(
 Appstore.subscribe(() =>{
     console.log(Appstore.getState());
 })
-
-Appstore.dispatch(action);
-
-
 
 export default Appstore;

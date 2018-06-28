@@ -19,7 +19,7 @@ class Productcard extends Component {
             <div className="productprice">
             <div className="pricetext">₹{this.props.price}</div>
             <div className="pricetext">{stars}</div>
-            <a href="#" className="btn btn-danger btn-sm" role="button">BUY</a></div>
+            <a href="" className="btn btn-danger btn-sm" role="button">BUY</a></div>
             </div>
     );
     }

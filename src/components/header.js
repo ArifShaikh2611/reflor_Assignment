@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import '../css/filterbar.css';
 
 const navColor ={
@@ -11,15 +12,18 @@ class Header extends Component {
   render(){
     return(
       <nav className="navbar navbar-expand-sm navBgColor"  id="nav-menu-container">
+      <div>
         <ul className="navbar-nav order-3">
           <li className="nav-item">
-            <a className="nav-link" href="view" style={navColor}>View</a>
+            <Link to="/view" ><span style={navColor}>View</span></Link>
           </li>
-          <li className="nav-item">
-            <a className="nav-link" href="add" style={navColor}>Add</a>
+          <li className="nav-item ml-3">
+          
+          <Link to="/add" ><span style={navColor}>Add</span></Link>
           </li>
           
       </ul>
+      </div>
     </nav>
     );
   }

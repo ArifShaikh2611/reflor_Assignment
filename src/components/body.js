@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import App from '../App';
+import App from '../components/App';
 import Addproduct from './addproduct';
-import { BrowserRouter as Router , Route ,Switch} from 'react-router-dom';
-//import { Switch, Route } from 'react-router';
-
+import { Route ,Switch} from 'react-router-dom';
+import Header from './header';
 
 class Body extends Component{
     render(){
         return(
-        <Router>
+            <section>
+            <Route component={Header} />
             <Switch>
-                <Route exact path="/" component={App} />
+                <Route exact path="/" component={Addproduct} />
                 <Route path="/view" component={App} />
                 <Route path="/add" component={Addproduct} />
             </Switch>
-        </Router>
+            </section>
         )
         
     }
