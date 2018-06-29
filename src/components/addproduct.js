@@ -10,9 +10,12 @@ class AddProduct extends Component{
             name:"",
             price:"",
             rating:"1",
-            invalidPrice : false
+            invalidPrice : false,
+            invalidPriceRange : false
         }
     }
+
+   
 
     setName = (event) =>{
         this.setState({name:event.target.value});
@@ -22,9 +25,14 @@ class AddProduct extends Component{
         var price = event.target.value;
         var digmatch=  /^\d+$/.test(price);
         if(digmatch || event.target.value == ""){
-            this.setState({invalidPrice:false});    
+            if(price < 1000 && event.target.value != ""){
+                this.setState({invalidPriceRange:true});
+            }else{
+                this.setState({invalidPriceRange:false}); 
+            }
+            this.setState({invalidPrice:false});      
         }else{
-            this.setState({invalidPrice:true})
+            this.setState({invalidPrice:true,invalidPriceRange:false});
         }
         this.setState({price:event.target.value});
     }
@@ -34,7 +42,7 @@ class AddProduct extends Component{
     }
 
     saveProduct = () => {
-        if(this.state.invalidPrice){
+        if(this.state.invalidPrice || this.state.invalidPriceRange){
             return false;
         }
         this.state.rating=parseInt(this.state.rating);
@@ -101,6 +109,7 @@ class AddProduct extends Component{
                 <div className="col-lg-8">
                     <input type="text" className={`btn btn-outline-secondary btn-lg nameinput`} onChange={this.setPrice} value={this.state.price}/>
                    { this.state.invalidPrice  ?  <span style={{color:'red'}}><br/>Please enter valid price.</span> : null }
+                   { !this.state.invalidPrice && this.state.invalidPriceRange ?  <span style={{color:'red'}}><br/>Price should be greater than 1000!</span> : null }
                 </div>
                </div>
                <div className="row mt-4">
@@ -118,7 +127,7 @@ class AddProduct extends Component{
                 </div>
                </div>
                <div className="row m-4">
-                <div className="col-lg-7 text-center">
+                <div className="col-lg-12 text-center">
                    <button className="btn btn-success btn-lg" onClick={this.saveProduct}>Add</button>
                     { 
                         this.props.products.length != 0 ? <span className="ml-3"><Link to="/view">Click here to View Products</Link></span> : null

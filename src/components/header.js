@@ -6,7 +6,7 @@ const navColor ={
   color: '#fff'
 }
 
-
+const  logopath = '/images/logo.png'
 class Header extends Component {
 
   render(){
@@ -14,7 +14,7 @@ class Header extends Component {
       <header id="header" className="header-fixed navBgColor">
         <div className="container-fluid">
         <div style={{display:'inline-block'}}>
-        <Link to="/view" ><img src={'../images/logo.jpg'} alt="logo image"/></Link>
+        <Link to="/view" ><img src={{logopath}} alt="logo image"/></Link>
           </div>
           <nav className="navbar navbar-expand-sm"  id="nav-menu-container">
             <div>
