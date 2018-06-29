@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import '../css/productcard.css';
 
 class Productcard extends Component {
@@ -19,7 +20,7 @@ class Productcard extends Component {
             <div className="productprice">
             <div className="pricetext">₹{this.props.price}</div>
             <div className="pricetext">{stars}</div>
-            <a href="" className="btn btn-danger btn-sm" role="button">BUY</a></div>
+            <button href="" className="btn btn-danger btn-sm" role="button"><Link to={"/product/"+this.props.productId}><span>View</span></Link></button></div>
             </div>
     );
     }

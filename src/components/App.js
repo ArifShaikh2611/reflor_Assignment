@@ -61,7 +61,7 @@ class App extends Component {
     }
 
     return (
-      tempFilter.map((Obj, index) => <Productcard key={`key-${index}`} name={Obj.name} price={Obj.price} ratings={Obj.rating} />)
+      tempFilter.map((obj, index) => <Productcard key={`key-${index}`} name={obj.name} price={obj.price} ratings={obj.rating} productId={obj.productId} />)
     )
   }
 
